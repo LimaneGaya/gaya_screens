@@ -94,12 +94,12 @@ class Home extends StatelessWidget {
                             ..rotateZ(-0.3)
                             ..scale(1.5, 1.5, 1.5),
                       alignment: Alignment.bottomCenter,
-                      child: Container(
-                        height: 100,
-                        width: 60,
-                        color: Colors.blue,
+                      child: Image.asset(
+                        'assets/N0001/images/energy.webp',
+                        scale: 7,
                       ),
                     ),
+
                     Transform(
                       transform:
                           Matrix4.identity()
