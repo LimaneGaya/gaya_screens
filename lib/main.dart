@@ -1,8 +1,8 @@
+import 'dart:ui' show ImageFilter;
+
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MainApp());
-}
+void main() => runApp(const MainApp());
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
@@ -82,7 +82,7 @@ class Home extends StatelessWidget {
                 Text(
                   'Powerful\nBoost',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 45),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 55),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -91,25 +91,78 @@ class Home extends StatelessWidget {
                     Transform(
                       transform:
                           Matrix4.identity()
+                            ..setTranslationRaw(45, 35, 0)
                             ..rotateZ(-0.3)
                             ..scale(1.5, 1.5, 1.5),
                       alignment: Alignment.bottomCenter,
-                      child: Image.asset(
-                        'assets/N0001/images/energy.webp',
-                        scale: 7,
+                      child: Stack(
+                        children: [
+                          Transform.translate(
+                            offset: Offset(-10, 10),
+                            child: ColorFiltered(
+                              colorFilter: ColorFilter.mode(
+                                Colors.black,
+                                BlendMode.srcATop,
+                              ),
+                              child: ImageFiltered(
+                                imageFilter: ImageFilter.blur(
+                                  sigmaX: 15,
+                                  sigmaY: 15,
+                                ),
+                                child: Opacity(
+                                  opacity: 0.5,
+                                  child: Image.asset(
+                                    'assets/N0001/images/energy.webp',
+                                    scale: 6,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Image.asset(
+                            'assets/N0001/images/energy.webp',
+                            scale: 6,
+                          ),
+                        ],
                       ),
                     ),
 
                     Transform(
                       transform:
                           Matrix4.identity()
+                          ..setTranslationRaw(-25, 0,0)
                             ..rotateZ(0.3)
                             ..scale(1.5, 1.5, 1.5),
                       alignment: Alignment.bottomCenter,
-                      child: Container(
-                        height: 100,
-                        width: 60,
-                        color: Colors.blue,
+                      child: Stack(
+                        children: [
+                          Transform.translate(
+                            offset: Offset(10, 10),
+                            child: ColorFiltered(
+                              colorFilter: ColorFilter.mode(
+                                Colors.black,
+                                BlendMode.srcATop,
+                              ),
+                              child: ImageFiltered(
+                                imageFilter: ImageFilter.blur(
+                                  sigmaX: 15,
+                                  sigmaY: 15,
+                                ),
+                                child: Opacity(
+                                  opacity: 0.5,
+                                  child: Image.asset(
+                                    'assets/N0001/images/energy2.webp',
+                                    scale: 6,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Image.asset(
+                            'assets/N0001/images/energy2.webp',
+                            scale: 6,
+                          ),
+                        ],
                       ),
                     ),
                   ],
