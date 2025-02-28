@@ -17,5 +17,12 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  fonts:
+    - family: HubotSans
+      fonts:
+        - asset: assets/fonts/HubotSans.ttf
+        - asset: assets/fonts/HubotSans-Bold.ttf
+          weight: 700
+
   assets:
     - assets/N0001/images/

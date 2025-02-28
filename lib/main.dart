@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:gaya_screens/screens/n0001.dart';
+part of 'imports.dart';
 
 void main() => runApp(const MainApp());
 
@@ -12,11 +11,17 @@ class MainApp extends StatelessWidget {
       theme: ThemeData.from(
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.blue,
-          brightness: Brightness.light,
+          brightness: Brightness.dark,
           dynamicSchemeVariant: DynamicSchemeVariant.rainbow,
         ),
       ),
-      home: N0001(),
+      routes: routes,
+      initialRoute: "list",
     );
   }
 }
+Map<String, Widget Function(BuildContext)> routes = {
+  "N0001" : (context) => N0001(),
+  "N0002" : (context) => N0002(),
+  "list" : (context) => WidgetList(),
+};

@@ -10,7 +10,6 @@ class N0001 extends StatelessWidget {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        leading: Icon(Icons.circle_outlined, size: 40),
         actions: [
           IconButton.filledTonal(
             onPressed: () {},
@@ -32,8 +31,8 @@ class N0001 extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: RadialGradient(
                 colors: [
-                  Theme.of(context).colorScheme.primary,
-                  Theme.of(context).colorScheme.tertiary,
+                  Theme.of(context).colorScheme.onPrimary,
+                  Theme.of(context).colorScheme.onTertiary,
                 ],
                 center: Alignment.bottomCenter,
                 radius: 1.3,
