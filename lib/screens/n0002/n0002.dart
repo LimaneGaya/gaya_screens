@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gaya_screens/screens/n0002/p1.dart';
 import 'package:gaya_screens/screens/n0002/p2.dart';
+import 'package:gaya_screens/screens/n0002/p3.dart';
 
 class N0002 extends StatelessWidget {
   const N0002({super.key});
@@ -10,7 +11,7 @@ class N0002 extends StatelessWidget {
     return PageView(
       scrollBehavior: MaterialScrollBehavior(),
       allowImplicitScrolling: true,
-      children: [P1(), P2()],
+      children: [P1(), P2(), P3()],
     );
   }
 }
