@@ -1,4 +1,5 @@
-part of 'imports.dart';
+import 'package:flutter/material.dart';
+import 'imports.dart';
 
 void main() => runApp(const MainApp());
 
@@ -20,10 +21,3 @@ class MainApp extends StatelessWidget {
     );
   }
 }
-Map<String, Widget Function(BuildContext)> routes = {
-  "N0001" : (context) => N0001(),
-  "N0002" : (context) => N0002(),
-  "N0003" : (context) => N0003(),
-  "N0004" : (context) => N0004(),
-  "list" : (context) => WidgetList(),
-};
