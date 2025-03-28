@@ -1,18 +1,13 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'dart:math' as math;
 
-// Define colors based on the image for consistency
-const Color primaryBgColor = Color(
-  0xFF1A1A1A,
-); // Slightly darker than pure black
-const Color cardBgColor = Color(0xFF2C2C2E); // Dark grey for cards
-const Color accentGreen = Color(0xFFC6FF00); // Neon green accent
-const Color accentRed = Color(0xFFFF453A); // Red for losses/negative
+const Color primaryBgColor = Color(0xFF1A1A1A);
+const Color cardBgColor = Color(0xFF2C2C2E);
+const Color accentGreen = Color(0xFFC6FF00);
+const Color accentRed = Color(0xFFFF453A);
 const Color textColorPrimary = Colors.white;
-const Color textColorSecondary = Colors.grey; // For less important text
+const Color textColorSecondary = Colors.grey;
 
 class N0005 extends StatelessWidget {
   const N0005({super.key});
@@ -26,12 +21,12 @@ class N0005 extends StatelessWidget {
           _buildSidebar(),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildHeader(),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   _buildMainContentGrid(),
                 ],
               ),
@@ -87,10 +82,13 @@ class N0005 extends StatelessWidget {
 
   Widget _buildSidebarIcon(IconData icon, {bool isSelected = false}) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 15),
+      margin: const EdgeInsets.symmetric(vertical: 5),
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: isSelected ? accentGreen.withOpacity(0.2) : Colors.transparent,
+        color:
+            isSelected
+                ? accentGreen.withValues(alpha: 0.2)
+                : Colors.transparent,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Icon(
@@ -103,13 +101,12 @@ class N0005 extends StatelessWidget {
 
   // --- Header ---
   Widget _buildHeader() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
       children: [
-        // Left side: Title and Filters
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            // Left side: Title and Filters
             const Text(
               'Dashboard',
               style: TextStyle(
@@ -118,31 +115,13 @@ class N0005 extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                _buildFilterChip(
-                  'Overview',
-                  Icons.star_border,
-                  isSelected: true,
-                ),
-                _buildFilterChip('Favorites', Icons.favorite_border),
-                _buildFilterChip('PPC', Icons.flash_on_outlined),
-                _buildFilterChip('Customize', Icons.settings_outlined),
-              ],
-            ),
-          ],
-        ),
-        // Right side: Search and Actions
-        Row(
-          children: [
-            // Search Bar
+            Spacer(),
             Container(
               width: 250,
               padding: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
                 color: cardBgColor,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(30),
               ),
               child: const TextField(
                 style: TextStyle(color: textColorPrimary),
@@ -154,7 +133,7 @@ class N0005 extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 15),
+            Spacer(),
             // Action Buttons
             _buildActionButton(Icons.add, isPrimary: true),
             const SizedBox(width: 10),
@@ -163,6 +142,15 @@ class N0005 extends StatelessWidget {
             _buildActionButton(Icons.swap_horiz),
             const SizedBox(width: 10),
             _buildActionButton(Icons.history),
+          ],
+        ),
+        const SizedBox(height: 10),
+        Row(
+          children: [
+            _buildFilterChip('Overview', Icons.star_border, isSelected: true),
+            _buildFilterChip('Favorites', Icons.favorite_border),
+            _buildFilterChip('PPC', Icons.flash_on_outlined),
+            _buildFilterChip('Customize', Icons.settings_outlined),
           ],
         ),
       ],
@@ -261,6 +249,7 @@ class N0005 extends StatelessWidget {
       padding: const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 2),
       decoration: BoxDecoration(
         color: backColor,
+        border: Border.all(width: 1, color: iconColor),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
@@ -312,167 +301,188 @@ class N0005 extends StatelessWidget {
   }
 
   Widget _buildMainContentGrid() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          child: SingleChildScrollView(
-            primary: true,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _buildOverviewSection(),
-                  const SizedBox(height: 5),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Text(
-                        'Top 5 Sport Categories',
-                        style: TextStyle(
-                          color: textColorPrimary,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Icon(Icons.more_horiz, color: textColorSecondary),
-                    ],
-                  ),
-                  const SizedBox(height: 5),
-                  _buildHalfCircleChart(),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Text(
-                        'Top 5 Leagues',
-                        style: TextStyle(
-                          color: textColorPrimary,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Icon(Icons.more_horiz, color: textColorSecondary),
-                    ],
-                  ),
-                  const SizedBox(height: 15),
-                  _buildLeagueRow(
-                    'NFL',
-                    'assets/nfl_logo.png',
-                    0.38,
-                  ),
-                  _buildLeagueRow(
-                    'NFL',
-                    'assets/nhl_logo.png',
-                    0.78,
-                  ),
-                  _buildLeagueRow('NBA', 'assets/nba_logo.png', 0.78),
-                ],
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(width: 20),
-        // Middle Column
-        Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _buildStatsAndPlayersCard(),
-                const SizedBox(height: 20),
-                _buildPlayersAndActivityCard(),
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(width: 20),
-        // Right Column
-        Expanded(
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              border: BoxBorder.all(width: 1, color: Colors.white),
-            ),
+    return Expanded(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Flexible(
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  _buildProfileAndEarningsCard(),
-                  const SizedBox(height: 20),
-                  _buildFundsActivityCard(),
-                  const SizedBox(height: 20),
-                  _buildTransactionsCard(),
+                  _buildOverviewSection(),
+                  const SizedBox(height: 10),
+                  _buildHalfCircleChart(),
+                  const SizedBox(height: 10),
+                  Container(
+                    padding: EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 1, color: Colors.grey.shade800),
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        stops: [0.0, 0.5],
+                        colors: [Colors.grey.shade800, Colors.grey.shade900],
+                      ),
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: const [
+                            Text(
+                              'Top 5 Leagues',
+                              style: TextStyle(
+                                color: textColorPrimary,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Icon(Icons.more_horiz, color: textColorSecondary),
+                          ],
+                        ),
+                        const SizedBox(height: 15),
+                        _buildLeagueRow('NFL', 0.38),
+                        _buildLeagueRow('NFL', 0.78),
+                        _buildLeagueRow('NBA', 0.78),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
-        ),
-      ],
+          const SizedBox(width: 10),
+          // Middle Column
+          Flexible(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [_buildStatsAndPlayersCard()],
+              ),
+            ),
+          ),
+          const SizedBox(width: 10),
+          // Right Column
+          Flexible(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                border: BoxBorder.all(width: 1, color: Colors.white),
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _buildProfileAndEarningsCard(),
+                    const SizedBox(height: 20),
+                    _buildFundsActivityCard(),
+                    const SizedBox(height: 20),
+                    _buildTransactionsCard(),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
   Widget _buildHalfCircleChart() {
     return Container(
-      padding: EdgeInsets.only(bottom: 8, top: 8, left: 8, right: 8),
+      padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: cardBgColor,
-        borderRadius: BorderRadius.circular(12),
+        border: Border.all(width: 1, color: Colors.grey.shade800),
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          stops: [0.0, 0.5],
+          colors: [Colors.grey.shade800, Colors.grey.shade900],
+        ),
+        borderRadius: BorderRadius.circular(25),
       ),
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          return SizedBox(
-            width: constraints.maxWidth,
-            height: constraints.maxWidth / 1.5,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                CustomPaint(
-                  size: Size(constraints.maxWidth, constraints.maxWidth / 1.5),
-                  painter: HalfCircleChartPainter(),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: const [
+              Text(
+                'Top 5 Sport Categories',
+                style: TextStyle(
+                  color: textColorPrimary,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
                 ),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
+              ),
+              Icon(Icons.more_horiz, color: textColorSecondary),
+            ],
+          ),
+          const SizedBox(height: 5),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              return SizedBox(
+                width: constraints.maxWidth,
+                height: constraints.maxWidth / 1.5,
+                child: Stack(
+                  alignment: Alignment.center,
                   children: [
-                    Text(
-                      '\$3,223.55',
-                      style: TextStyle(
-                        color: textColorPrimary,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                    CustomPaint(
+                      size: Size(
+                        constraints.maxWidth,
+                        constraints.maxWidth / 1.5,
                       ),
+                      painter: HalfCircleChartPainter(),
                     ),
-                    const Text(
-                      'Total profit',
-                      style: TextStyle(color: textColorSecondary, fontSize: 12),
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          '\$3,223.55',
+                          style: TextStyle(
+                            color: textColorPrimary,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const Text(
+                          'Total profit',
+                          style: TextStyle(
+                            color: textColorSecondary,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: Colors.grey.shade800,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            _buildSportIcon(Icons.sports_volleyball_outlined),
+                            _buildSportIcon(Icons.sports_mma_outlined),
+                            _buildSportIcon(Icons.sports_soccer),
+                            _buildSportIcon(Icons.sports_football_outlined),
+                            _buildSportIcon(Icons.sports_baseball_outlined),
+                            _buildSportIcon(Icons.sports_hockey_outlined),
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    padding: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: Colors.grey.shade800,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        _buildSportIcon(Icons.sports_volleyball_outlined),
-                        _buildSportIcon(Icons.sports_mma_outlined),
-                        _buildSportIcon(Icons.sports_soccer),
-                        _buildSportIcon(Icons.sports_football_outlined),
-                        _buildSportIcon(Icons.sports_baseball_outlined),
-                        _buildSportIcon(Icons.sports_hockey_outlined),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
+              );
+            },
+          ),
+        ],
       ),
     );
   }
@@ -485,21 +495,13 @@ class N0005 extends StatelessWidget {
     );
   }
 
-  Widget _buildLeagueRow(String name, String logoAssetPath, double progress) {
+  Widget _buildLeagueRow(String name, double progress) {
     // Placeholder for logo if asset fails
     Widget logoWidget = CircleAvatar(
       radius: 12,
       backgroundColor: Colors.grey[700],
       child: Text(name[0], style: TextStyle(color: Colors.white, fontSize: 10)),
     );
-    // Uncomment below if you have actual assets:
-    // try {
-    //   logoWidget = Image.asset(logoAssetPath, height: 24, width: 24);
-    // } catch (e) {
-    //   // Keep placeholder if asset loading fails
-    //   print("Error loading logo: $logoAssetPath");
-    // }
-
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
@@ -540,12 +542,244 @@ class N0005 extends StatelessWidget {
     return Column(
       children: [
         _buildStatItem("Total Wagered", "\$3,433.0", "+4.5%", true),
-        const SizedBox(height: 10),
+        const SizedBox(height: 2),
         _buildStatItem("Percentage of Total Bets", "34%", "+4.5%", true),
-        const SizedBox(height: 10),
+        const SizedBox(height: 2),
         _buildStatItem("Event Count", "35", "+4.5%", true),
         const SizedBox(height: 15),
-        _buildPlayerInfoSection(), // Contains Tabs and player details
+        // Tabs Row
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _buildTab("Events"),
+            _buildTab("Players", isSelected: true),
+            _buildTab("Bets"),
+            _buildTab("Plays"),
+          ],
+        ),
+        const SizedBox(height: 15),
+        // State management would be needed for real tab switching
+        // For this static clone, we'll just show the "Players" state
+        Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            border: Border.all(width: 1, color: Colors.grey.shade800),
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              stops: [0.0, 0.5],
+              colors: [Colors.grey.shade800, Colors.grey.shade900],
+            ),
+            borderRadius: BorderRadius.circular(25),
+          ),
+          child: Column(
+            children: [
+              // Content related to the selected tab (Showing Players content)
+              _buildPlayerDetailRow(),
+              const SizedBox(height: 15),
+              Row(
+                children: const [
+                  Text(
+                    "\$4,450",
+                    style: TextStyle(
+                      color: accentGreen,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ), // Assuming this is profit/positive
+                  SizedBox(width: 5),
+                  Icon(
+                    Icons.flag_outlined,
+                    color: textColorSecondary,
+                    size: 16,
+                  ), // Flag icon?
+                  SizedBox(width: 10),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: accentRed,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.people_alt_outlined,
+                          color: Colors.black,
+                          size: 16,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      _buildUserFundInfo("Users", "67"),
+                    ],
+                  ),
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 1, color: Colors.grey.shade800),
+                    ),
+                    child: SizedBox(height: 25),
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: accentRed,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.people_alt_outlined,
+                          color: Colors.black,
+                          size: 16,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      _buildUserFundInfo("Funds", "\$22.4k"),
+                    ],
+                  ),
+                ],
+              ),
+              const Divider(height: 30, color: textColorSecondary),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Best Players Section
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Best Players',
+                        style: TextStyle(
+                          color: textColorPrimary,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Row(
+                        children: const [
+                          Text(
+                            'Pro',
+                            style: TextStyle(
+                              color: textColorSecondary,
+                              fontSize: 12,
+                            ),
+                          ),
+                          SizedBox(width: 5),
+                          Text(
+                            '4',
+                            style: TextStyle(
+                              color: textColorPrimary,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Stacked Avatars
+                      SizedBox(
+                        width: 120, // Limit width for stacking effect
+                        height: 35,
+                        child: Stack(
+                          children: [
+                            _buildAvatar('https://picsum.photos/50', 0),
+                            _buildAvatar('https://picsum.photos/51', 1),
+                            _buildAvatar('https://picsum.photos/52', 2),
+                            _buildAvatar('https://picsum.photos/53', 3),
+                            // Add + button visually overlapping
+                            Positioned(
+                              left: 4 * 20.0 + 5, // Position after last avatar
+                              child: Container(
+                                width: 30,
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: cardBgColor,
+                                    width: 2,
+                                  ),
+                                ),
+                                child: const Icon(
+                                  Icons.add,
+                                  color: Colors.black,
+                                  size: 18,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      // Arrow and number
+                      Row(
+                        children: const [
+                          Icon(
+                            Icons.arrow_forward,
+                            color: textColorSecondary,
+                            size: 16,
+                          ),
+                          SizedBox(width: 5),
+                          Text(
+                            '+145',
+                            style: TextStyle(
+                              color: textColorSecondary,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        // Week Activity Section
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                Text(
+                  'Week activity',
+                  style: TextStyle(
+                    color: textColorPrimary,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  'Last week -4.5%',
+                  style: TextStyle(color: accentRed, fontSize: 12),
+                ), // Example trend
+              ],
+            ),
+            Text(
+              '\$2,200',
+              style: TextStyle(
+                color: textColorPrimary,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 15),
+        SizedBox(height: 50, child: BarChart(_buildBarChartData())),
+        const SizedBox(height: 10),
       ],
     );
   }
@@ -557,84 +791,75 @@ class N0005 extends StatelessWidget {
     bool positive,
   ) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.only(top: 12, left: 16, right: 16),
       decoration: BoxDecoration(
         color: cardBgColor,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: const TextStyle(color: textColorSecondary, fontSize: 12),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                value,
-                style: const TextStyle(
-                  color: textColorPrimary,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Text(
-                percentage,
-                style: TextStyle(
-                  color: positive ? accentGreen : accentRed,
-                  fontSize: 12,
-                ),
-              ),
-              Icon(
-                positive ? Icons.arrow_upward : Icons.arrow_downward,
-                color: positive ? accentGreen : accentRed,
-                size: 14,
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  // This represents the section with Tabs (Players, Bets, Plays) and content below
-  Widget _buildPlayerInfoSection() {
-    // State management would be needed for real tab switching
-    // For this static clone, we'll just show the "Players" state
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: cardBgColor,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(27),
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          // Tabs Row
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              _buildTab("Players", isSelected: true),
-              _buildTab("Bets"),
-              _buildTab("Plays"),
+              Container(
+                padding: const EdgeInsets.all(6),
+                decoration: BoxDecoration(
+                  color: positive ? accentGreen : accentRed,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.monetization_on_outlined,
+                  color: Colors.black,
+                ),
+              ),
+              const SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      color: textColorSecondary,
+                      fontSize: 12,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    value,
+                    style: const TextStyle(
+                      color: textColorPrimary,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+              Spacer(),
+              Row(
+                children: [
+                  Text(
+                    percentage,
+                    style: TextStyle(
+                      color: positive ? accentGreen : accentRed,
+                      fontSize: 12,
+                    ),
+                  ),
+                  Icon(
+                    positive ? Icons.arrow_upward : Icons.arrow_downward,
+                    color: positive ? accentGreen : accentRed,
+                    size: 14,
+                  ),
+                ],
+              ),
             ],
           ),
-          const SizedBox(height: 15),
-          // Content related to the selected tab (Showing Players content)
-          _buildPlayerDetailRow(),
-          const SizedBox(height: 15),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _buildUserFundInfo("Users", "67"),
-              _buildUserFundInfo("Funds", "\$22.4k"),
-            ],
+          SizedBox(height: 12),
+          DecoratedBox(
+            decoration: BoxDecoration(
+              border: Border.all(width: 1, color: Colors.white),
+            ),
+            child: SizedBox(width: 150),
           ),
         ],
       ),
@@ -656,56 +881,40 @@ class N0005 extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Row(
-          children: [
-            // Placeholder for Red Sox logo
-            CircleAvatar(
-              radius: 16,
-              backgroundColor: Colors.red[900],
-              child: Text(
-                'RS',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 10,
-                  fontWeight: FontWeight.bold,
-                ),
+        CircleAvatar(
+          radius: 16,
+          backgroundColor: Colors.red[900],
+          child: Text(
+            'RS',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 10,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        const SizedBox(width: 10),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const [
+            Text(
+              "Red Sox",
+              style: TextStyle(
+                color: textColorPrimary,
+                fontWeight: FontWeight.w600,
               ),
             ),
-            const SizedBox(width: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text(
-                  "Red Sox",
-                  style: TextStyle(
-                    color: textColorPrimary,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                SizedBox(height: 2),
-                Text(
-                  "25% Full",
-                  style: TextStyle(color: textColorSecondary, fontSize: 12),
-                ),
-              ],
+            SizedBox(height: 2),
+            Text(
+              "25% Full",
+              style: TextStyle(color: textColorSecondary, fontSize: 12),
             ),
           ],
         ),
-        Row(
-          children: const [
-            Text(
-              "\$4,450",
-              style: TextStyle(color: accentGreen, fontWeight: FontWeight.bold),
-            ), // Assuming this is profit/positive
-            SizedBox(width: 5),
-            Icon(
-              Icons.flag_outlined,
-              color: textColorSecondary,
-              size: 16,
-            ), // Flag icon?
-            SizedBox(width: 10),
-            Icon(Icons.more_horiz, color: textColorSecondary, size: 20),
-          ],
+        Spacer(),
+        RotatedBox(
+          quarterTurns: 1,
+          child: Icon(Icons.more_horiz, color: textColorSecondary, size: 20),
         ),
       ],
     );
@@ -768,10 +977,7 @@ class N0005 extends StatelessWidget {
         children: [
           const CircleAvatar(
             radius: 25,
-            // Placeholder - replace with Image.network or Image.asset
-            backgroundImage: NetworkImage(
-              'https://via.placeholder.com/100/C6FF00/000000?text=JW',
-            ),
+            backgroundImage: NetworkImage('https://picsum.photos/50'),
           ),
           const SizedBox(width: 15),
           Column(
@@ -1086,159 +1292,6 @@ class N0005 extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildPlayersAndActivityCard() {
-    // Contains "Best Players" and "Week activity"
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: cardBgColor,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Best Players Section
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Best Players',
-                style: TextStyle(
-                  color: textColorPrimary,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              Row(
-                children: const [
-                  Text(
-                    'Pro',
-                    style: TextStyle(color: textColorSecondary, fontSize: 12),
-                  ),
-                  SizedBox(width: 5),
-                  Text(
-                    '4',
-                    style: TextStyle(
-                      color: textColorPrimary,
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // Stacked Avatars
-              SizedBox(
-                width: 120, // Limit width for stacking effect
-                height: 35,
-                child: Stack(
-                  children: [
-                    _buildAvatar(
-                      'https://via.placeholder.com/50/FF0000/FFFFFF?text=P1',
-                      0,
-                    ),
-                    _buildAvatar(
-                      'https://via.placeholder.com/50/00FF00/000000?text=P2',
-                      1,
-                    ),
-                    _buildAvatar(
-                      'https://via.placeholder.com/50/0000FF/FFFFFF?text=P3',
-                      2,
-                    ),
-                    _buildAvatar(
-                      'https://via.placeholder.com/50/FFFF00/000000?text=P4',
-                      3,
-                    ),
-                    // Add + button visually overlapping
-                    Positioned(
-                      left: 4 * 20.0 + 5, // Position after last avatar
-                      child: Container(
-                        width: 30,
-                        height: 30,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                          border: Border.all(color: cardBgColor, width: 2),
-                        ),
-                        child: const Icon(
-                          Icons.add,
-                          color: Colors.black,
-                          size: 18,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              // Arrow and number
-              Row(
-                children: const [
-                  Icon(
-                    Icons.arrow_forward,
-                    color: textColorSecondary,
-                    size: 16,
-                  ),
-                  SizedBox(width: 5),
-                  Text(
-                    '+145',
-                    style: TextStyle(color: textColorSecondary, fontSize: 12),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const Divider(height: 30, color: textColorSecondary),
-          // Week Activity Section
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    'Week activity',
-                    style: TextStyle(
-                      color: textColorPrimary,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  SizedBox(height: 4),
-                  Text(
-                    'Last week -4.5%',
-                    style: TextStyle(color: accentRed, fontSize: 12),
-                  ), // Example trend
-                ],
-              ),
-              Text(
-                '\$2,200',
-                style: TextStyle(
-                  color: textColorPrimary,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 15),
-          // Simple Bar Chart placeholder (fl_chart)
-          SizedBox(
-            height: 50, // Small height for the activity bars
-            child: BarChart(
-              _buildBarChartData(),
-              swapAnimationDuration: const Duration(milliseconds: 250),
-            ),
-          ),
-        ],
-      ),
     );
   }
 
