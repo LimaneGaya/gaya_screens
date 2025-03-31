@@ -5,5 +5,7 @@ import 'package:gaya_screens/screens/n0002/n0002.dart';
 import 'package:gaya_screens/screens/n0003/n0003.dart';
 import 'package:gaya_screens/screens/n0004/n0004.dart';
 import 'package:gaya_screens/screens/n0005/n0005.dart';
+import 'package:gaya_screens/screens/n0006/n0006.dart';
+
 
 part 'screens.dart';
