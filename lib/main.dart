@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'imports.dart';
 
-void main() => runApp(const MainApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const MainApp());
+}
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
