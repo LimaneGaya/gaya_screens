@@ -27,3 +27,4 @@ flutter:
 
   assets:
     - assets/N0001/images/
+    - assets/logo.png

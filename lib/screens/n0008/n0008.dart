@@ -156,24 +156,10 @@ class _AppLocalizations {
     'lang_ar': {'en': 'Arabic', 'fr': 'Arabe', 'ar': 'العربية'},
   };
 
-  // Getter method
   String get(String key) {
-    // Fallback to English if translation or locale is missing
     return _localizedValues[key]?[locale.languageCode] ??
         _localizedValues[key]?['en'] ??
-        '[$key]'; // Show key if completely missing
-  }
-
-  // Convenience getter for accessing localizations via context
-  static _AppLocalizations of(BuildContext context) {
-    // In a real app using Provider or InheritedWidget is better
-    // For this example, we'll manage state in PricingPage's State
-    final state = context.findAncestorStateOfType<_PricingPageState>();
-    assert(
-      state != null,
-      'Did you forget to wrap your widget tree in PricingPage?',
-    );
-    return _AppLocalizations(state!._currentLocale);
+        '[$key]';
   }
 }
 
