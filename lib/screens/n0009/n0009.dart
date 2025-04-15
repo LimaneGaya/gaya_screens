@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:gaya_screens/screens/screen_shot.dart';
 // No external packages like intl are used, formatting is done manually.
 
 // Localization Data and Function (Updated with names, product, currency, prices)
@@ -207,30 +208,9 @@ class N0009 extends StatefulWidget {
 }
 
 class _N0009State extends State<N0009> {
-  final key = GlobalKey();
 
   late final textDirection =
       widget.languageCode == 'ar' ? TextDirection.rtl : TextDirection.ltr;
-  void paitScreen() {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final boundary =
-          key.currentContext?.findRenderObject() as RenderRepaintBoundary?;
-      if (boundary != null) {
-        final image = await boundary.toImage(pixelRatio: 3);
-        final byteData = await image.toByteData(format: ImageByteFormat.png);
-        if (byteData != null) {
-          final pngBytes = byteData.buffer.asUint8List();
-          File('screenshot ${widget.languageCode}.png').writeAsBytes(pngBytes);
-        }
-      }
-    });
-  }
-
-  @override
-  initState() {
-    super.initState();
-    Future.delayed(const Duration(seconds: 8), () => paitScreen());
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -302,114 +282,113 @@ class _N0009State extends State<N0009> {
         textDirection: textDirection,
         child: Scaffold(
           body: SingleChildScrollView(
-            child: RepaintBoundary(
-              key: key,
-              child: DecoratedBox(
-                decoration: BoxDecoration(color: const Color(0xFFF8F9FA)),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Center(
-                        child: CircleAvatar(
-                          backgroundImage: AssetImage('assets/logo.png'),
-                          radius: 20,
+            child: ScreenShot(
+              widgetName: 'N0009',
+              colorBG: const Color(0xFFF8F9FA),
+              languageCode: widget.languageCode,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Center(
+                      child: CircleAvatar(
+                        backgroundImage: AssetImage('assets/logo.png'),
+                        radius: 20,
+                      ),
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Left Column Widgets
+                        Expanded(
+                          flex: 2, // Adjust flex factor as needed
+                          child: Column(
+                            children: [
+                              _CommentCard(languageCode: widget.languageCode),
+                              const SizedBox(height: 16),
+                              _ProductCard(languageCode: widget.languageCode),
+                              const SizedBox(height: 16),
+                              _LocationTimerCard(
+                                languageCode: widget.languageCode,
+                              ),
+                              const SizedBox(height: 16),
+                              // Use the combined attendees key
+                              _MeetingCard(
+                                languageCode: widget.languageCode,
+                                titleKey: 'meeting_client',
+                                time: '02:20 PM - 03:30 PM',
+                                descriptionKey: 'collaborate_with',
+                                attendeesKey:
+                                    'attendees_m_j_h', // Use combined key
+                                duration: 80,
+                                avatarUrls: const [
+                                  // Using Picsum with seeds
+                                  'https://picsum.photos/seed/M/40/40',
+                                  'https://picsum.photos/seed/J/40/40',
+                                  'https://picsum.photos/seed/H/40/40',
+                                ],
+                              ),
+                              const SizedBox(height: 16),
+                              // Use the combined attendees key
+                              _MeetingCard(
+                                languageCode: widget.languageCode,
+                                titleKey: 'team_standup',
+                                time: '09:00 AM - 09:30 AM',
+                                descriptionKey: 'collaborate_with',
+                                attendeesKey:
+                                    'attendees_m_j_h', // Use combined key
+                                duration: 30,
+                                avatarUrls: const [
+                                  // Different seeds
+                                  'https://picsum.photos/seed/M2/40/40',
+                                  'https://picsum.photos/seed/J2/40/40',
+                                  'https://picsum.photos/seed/H2/40/40',
+                                ],
+                              ),
+                              const SizedBox(height: 16),
+                              // Feedback session doesn't list specific names in the original
+                              _MeetingCard(
+                                languageCode: widget.languageCode,
+                                titleKey: 'design_review',
+                                time: '10:00 AM - 11:00 AM',
+                                descriptionKey: 'feedback_session',
+                                attendeesKey:
+                                    '', // No specific attendees key needed here
+                                duration: 60,
+                                avatarUrls: const [
+                                  // Stakeholder seeds
+                                  'https://picsum.photos/seed/S1/40/40',
+                                  'https://picsum.photos/seed/S2/40/40',
+                                  'https://picsum.photos/seed/S3/40/40',
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Left Column Widgets
-                          Expanded(
-                            flex: 2, // Adjust flex factor as needed
-                            child: Column(
-                              children: [
-                                _CommentCard(languageCode: widget.languageCode),
-                                const SizedBox(height: 16),
-                                _ProductCard(languageCode: widget.languageCode),
-                                const SizedBox(height: 16),
-                                _LocationTimerCard(
-                                  languageCode: widget.languageCode,
-                                ),
-                                const SizedBox(height: 16),
-                                // Use the combined attendees key
-                                _MeetingCard(
-                                  languageCode: widget.languageCode,
-                                  titleKey: 'meeting_client',
-                                  time: '02:20 PM - 03:30 PM',
-                                  descriptionKey: 'collaborate_with',
-                                  attendeesKey:
-                                      'attendees_m_j_h', // Use combined key
-                                  duration: 80,
-                                  avatarUrls: const [
-                                    // Using Picsum with seeds
-                                    'https://picsum.photos/seed/M/40/40',
-                                    'https://picsum.photos/seed/J/40/40',
-                                    'https://picsum.photos/seed/H/40/40',
-                                  ],
-                                ),
-                                const SizedBox(height: 16),
-                                // Use the combined attendees key
-                                _MeetingCard(
-                                  languageCode: widget.languageCode,
-                                  titleKey: 'team_standup',
-                                  time: '09:00 AM - 09:30 AM',
-                                  descriptionKey: 'collaborate_with',
-                                  attendeesKey:
-                                      'attendees_m_j_h', // Use combined key
-                                  duration: 30,
-                                  avatarUrls: const [
-                                    // Different seeds
-                                    'https://picsum.photos/seed/M2/40/40',
-                                    'https://picsum.photos/seed/J2/40/40',
-                                    'https://picsum.photos/seed/H2/40/40',
-                                  ],
-                                ),
-                                const SizedBox(height: 16),
-                                // Feedback session doesn't list specific names in the original
-                                _MeetingCard(
-                                  languageCode: widget.languageCode,
-                                  titleKey: 'design_review',
-                                  time: '10:00 AM - 11:00 AM',
-                                  descriptionKey: 'feedback_session',
-                                  attendeesKey:
-                                      '', // No specific attendees key needed here
-                                  duration: 60,
-                                  avatarUrls: const [
-                                    // Stakeholder seeds
-                                    'https://picsum.photos/seed/S1/40/40',
-                                    'https://picsum.photos/seed/S2/40/40',
-                                    'https://picsum.photos/seed/S3/40/40',
-                                  ],
-                                ),
-                              ],
-                            ),
+                        const SizedBox(width: 16), // Space between columns
+                        // Right Column Widgets
+                        Expanded(
+                          flex: 3, // Adjust flex factor as needed
+                          child: Column(
+                            children: [
+                              _WorkflowProjectCard(
+                                languageCode: widget.languageCode,
+                              ),
+                              const SizedBox(height: 16),
+                              _AnalyticsCard(
+                                languageCode: widget.languageCode,
+                              ),
+                              const SizedBox(height: 16),
+                              _InvitationCard(
+                                languageCode: widget.languageCode,
+                              ),
+                            ],
                           ),
-                          const SizedBox(width: 16), // Space between columns
-                          // Right Column Widgets
-                          Expanded(
-                            flex: 3, // Adjust flex factor as needed
-                            child: Column(
-                              children: [
-                                _WorkflowProjectCard(
-                                  languageCode: widget.languageCode,
-                                ),
-                                const SizedBox(height: 16),
-                                _AnalyticsCard(
-                                  languageCode: widget.languageCode,
-                                ),
-                                const SizedBox(height: 16),
-                                _InvitationCard(
-                                  languageCode: widget.languageCode,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),

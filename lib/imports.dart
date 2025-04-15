@@ -9,6 +9,8 @@ import 'package:gaya_screens/screens/n0006/n0006.dart';
 import 'package:gaya_screens/screens/n0007/n0007.dart';
 import 'package:gaya_screens/screens/n0008/n0008.dart';
 import 'package:gaya_screens/screens/n0009/n0009.dart';
+import 'package:gaya_screens/screens/n0010/n0010.dart';
+
 
 
 part 'screens.dart';
