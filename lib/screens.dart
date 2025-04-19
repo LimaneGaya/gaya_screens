@@ -11,6 +11,7 @@ Map<String, Widget Function(BuildContext)> routes = {
   "N0008": (context) => N0008(),
   "N0009": (context) => N0009(),
   "N0010": (context) => N0010(),
+  "N0011": (context) => N0011(),
   
   
   "list": (context) => WidgetList(),
