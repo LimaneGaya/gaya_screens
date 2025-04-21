@@ -218,7 +218,7 @@ class N0011 extends StatelessWidget {
         borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
+            color: Colors.black.withValues(alpha:0.2),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),
@@ -365,7 +365,7 @@ class N0011 extends StatelessWidget {
                       vertical: 4,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(
+                      color: Colors.black.withValues(alpha:
                         0.5,
                       ), // Darker background for dots
                       borderRadius: BorderRadius.circular(10),
@@ -472,7 +472,7 @@ class N0011 extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.2),
+              color: Colors.black.withValues(alpha:0.2),
               blurRadius: 8,
               offset: const Offset(0, 4),
             ),
@@ -482,7 +482,7 @@ class N0011 extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 12,
-              backgroundColor: Colors.white.withOpacity(0.3),
+              backgroundColor: Colors.white.withValues(alpha:0.3),
               child: Text(
                 iconPlaceholder,
                 style: TextStyle(
@@ -577,7 +577,7 @@ class N0011 extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: 20,
-          backgroundColor: iconColor.withOpacity(0.2),
+          backgroundColor: iconColor.withValues(alpha:0.2),
           child: Text(
             iconChar,
             style: TextStyle(
@@ -641,7 +641,7 @@ class N0011 extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: const Color(0xFF2C2C2E).withOpacity(0.5),
+              color: const Color(0xFF2C2C2E).withValues(alpha:0.5),
               borderRadius: BorderRadius.circular(30),
             ),
             child: Row(
@@ -678,7 +678,7 @@ class N0011 extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: isActive ? Colors.grey.withOpacity(0.2) : Colors.transparent,
+        color: isActive ? Colors.grey.withValues(alpha:0.2) : Colors.transparent,
         shape: BoxShape.circle,
       ),
       child: Icon(

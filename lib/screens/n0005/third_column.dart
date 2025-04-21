@@ -609,7 +609,7 @@ class TransactionItem extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
-                  color: accentGreen.withOpacity(0.2),
+                  color: accentGreen.withValues(alpha:0.2),
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: const Icon(

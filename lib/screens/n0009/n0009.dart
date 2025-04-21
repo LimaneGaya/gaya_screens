@@ -1,8 +1,4 @@
-import 'dart:io';
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:gaya_screens/screens/screen_shot.dart';
 // No external packages like intl are used, formatting is done manually.
 
@@ -1035,7 +1031,7 @@ class _AnalyticsCard extends StatelessWidget {
       decoration: BoxDecoration(
         color:
             isSelected
-                ? theme.primaryColor.withOpacity(0.1)
+                ? theme.primaryColor.withValues(alpha:0.1)
                 : Colors.transparent,
         borderRadius: BorderRadius.circular(8),
       ),

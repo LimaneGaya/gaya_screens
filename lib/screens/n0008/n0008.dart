@@ -482,7 +482,7 @@ class _PlanCard extends StatelessWidget {
             borderColor == null
                 ? [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha:0.1),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -537,7 +537,7 @@ class _PlanCard extends StatelessWidget {
           Text(
             description,
             style: TextStyle(
-              color: textColor.withOpacity(0.8),
+              color: textColor.withValues(alpha:0.8),
               fontSize: 14,
               height: 1.4,
             ),
@@ -562,7 +562,7 @@ class _PlanCard extends StatelessWidget {
                 child: Text(
                   pricePeriod,
                   style: TextStyle(
-                    color: textColor.withOpacity(0.7),
+                    color: textColor.withValues(alpha:0.7),
                     fontSize: 16,
                   ),
                 ),
@@ -620,12 +620,12 @@ class _FeatureItem extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: _featureSpacing),
       child: Row(
         children: [
-          Icon(Icons.add, color: textColor.withOpacity(0.8), size: 18),
+          Icon(Icons.add, color: textColor.withValues(alpha:0.8), size: 18),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
               text,
-              style: TextStyle(color: textColor.withOpacity(0.9), fontSize: 14),
+              style: TextStyle(color: textColor.withValues(alpha:0.9), fontSize: 14),
               // Let TextDirectionality handle alignment
             ),
           ),
@@ -650,7 +650,7 @@ class _NeedDifferentSection extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha:0.1),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -710,7 +710,7 @@ class _NeedDifferentSection extends StatelessWidget {
         Text(
           localizations.get('need_diff_desc'), // Use localization
           style: TextStyle(
-            color: _buttonTextColorLight.withOpacity(0.8),
+            color: _buttonTextColorLight.withValues(alpha:0.8),
             fontSize: 16,
           ),
         ),

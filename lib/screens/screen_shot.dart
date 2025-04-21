@@ -24,7 +24,7 @@ class ScreenShot extends StatefulWidget {
 
 class _ScreenShotState extends State<ScreenShot> {
   final key = GlobalKey();
-  
+
   void paitScreen() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final boundary =
@@ -34,7 +34,9 @@ class _ScreenShotState extends State<ScreenShot> {
         final byteData = await image.toByteData(format: ImageByteFormat.png);
         if (byteData != null) {
           final pngBytes = byteData.buffer.asUint8List();
-          File('screenshot ${widget.widgetName} ${widget.languageCode}.png').writeAsBytes(pngBytes);
+          File(
+            'screenshot ${widget.widgetName} ${widget.languageCode}.png',
+          ).writeAsBytes(pngBytes);
         }
       }
     });
@@ -43,8 +45,10 @@ class _ScreenShotState extends State<ScreenShot> {
   void _handleKeyPressed(KeyEvent event) {
     if (event is KeyDownEvent) {
       if (event.logicalKey == LogicalKeyboardKey.space) {
-        paitScreen();
-      } 
+        Future.delayed(const Duration(milliseconds: 100), () {
+          paitScreen();
+        });
+      }
     }
   }
 
