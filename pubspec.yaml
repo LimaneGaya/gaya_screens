@@ -26,5 +26,7 @@ flutter:
           weight: 700
 
   assets:
-    - assets/N0001/images/
     - assets/logo.png
+    - assets/N0001/images/
+    - assets/N0014/
+    
